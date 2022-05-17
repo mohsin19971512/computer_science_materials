@@ -1,0 +1,91 @@
+'Zero order -------------------------------------------------------------------
+
+Private Sub Command23_Click()
+m = 0: n = 1
+Y = Picture1.Height
+X = Picture2.Width
+Picture2.Height = Y * 2
+Picture2.Width = X * 2
+Cls
+For i = 1 To Picture1.ScaleWidth
+For j = 1 To Picture1.ScaleHeight
+aa = Picture1.Point(i, j)
+r1 = aa Mod 256
+g1 = ((aa And &HFF00FF00) / 256&)
+b1 = ((aa And &HFF0000) / 65536)
+If r1 < 0 Then r1 = 0
+If g1 < 0 Then g1 = 0
+If b1 < 0 Then b1 = 0
+If r1 > 256 Then r1 = 256
+If g1 > 256 Then g1 = 256
+If b1 > 256 Then b1 = 256
+m = m + 1
+Picture2.PSet (n, m), RGB(r1, g1, b1)
+m = m + 1
+Picture2.PSet (n, m), RGB(r1, g1, b1)
+Next j
+n = n + 1
+For o = 1 To m
+w = Picture2.Point(n - 1, o)
+Picture2.PSet (n, o), w
+Next o
+m = 0
+n = n + 1
+Next i
+MsgBox ("finsh")
+End Sub
+
+'First order -------------------------------------------------------------------
+
+Private Sub Command34_Click()
+n = 1: m = 0
+X = Picture1.Width
+Y = Picture1.Height
+Picture2.Height = Y * 2
+Picture2.Width = X * 2
+For i = 1 To Picture1.ScaleHeight
+For j = 1 To Picture1.ScaleWidth
+pixel1 = Picture1.Point(i, j)
+pixel2 = Picture1.Point(i, j + 1)
+red = pixel1 Mod 256
+ green = ((pixel1 And &HFF00FF00) / 256&)
+ blue = (pixel1 And &HFF0000) / 65536
+ If red < 0 Then red = 0
+If green < 0 Then green = 0
+If blue < 0 Then blue = 0
+If red > 255 Then red = 255
+If green > 255 Then green = 255
+If blue > 255 Then blue = 255
+red2 = pixel2 Mod 256
+ green2 = ((pixel2 And &HFF00FF00) / 256&)
+ blue2 = (pixel2 And &HFF0000) / 65536
+If red2 < 0 Then red2 = 0
+If green2 < 0 Then green2 = 0
+If blue2 < 0 Then blue2 = 0
+If red2 > 255 Then red2 = 255
+If green2 > 255 Then green2 = 255
+If blue2 > 255 Then blue2 = 255
+ m = m + 1
+Picture2.PSet (n, m), RGB(red, green, blue)
+r3 = red + red2 / 2
+g3 = green + green2 / 2
+b3 = blue + blue2 / 2
+m = m + 1
+If r3 < 0 Then r3 = 0
+If g3 < 0 Then g3 = 0
+If b3 < 0 Then b3 = 0
+If r3 > 255 Then r3 = 255
+If g3 > 255 Then g3 = 255
+If b3 > 255 Then b3 = 255
+Picture2.PSet (n, m), RGB(r3, g3, b3)
+Next j
+n = n + 1
+For Z = 1 To m
+w = Picture2.Point(n - 1, Z)
+Picture2.PSet (n, Z), w
+Next Z
+m = 0
+n = n + 1
+Next i
+MsgBox ("finsh....")
+End Sub

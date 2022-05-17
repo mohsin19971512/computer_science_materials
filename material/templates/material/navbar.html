@@ -1,0 +1,55 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title> </title>
+    <!-- Favicon-->
+    <!-- Font Awesome icons (free version)-->
+    {% include 'material/_css.html' %}
+
+
+
+</head>
+<body >
+
+      <!-- Navigation-->
+      <nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background-color: #212529;" id="mainNav">
+        <div class="container">
+            <a class="navbar-brand" href="/"><img style="margin-right: 10px; margin-top: -1px; width: 50px; height: 50px;" src="{% static 'assets/img/cslogo.png' %}" alt="..." />Computer Science</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                Menu
+                <i class="fas fa-bars ms-1"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav text-uppercase ms-auto py-4 py-lg-0">
+                   
+                    <li class="nav-item"><a class="nav-link" href="#services">Branches</a></li>
+
+
+
+                    
+                    
+                    <li class="nav-item"><a class="nav-link" href="{% url 'questions_bank' %}">question bank</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'teaching_staff' %}">Teaching Staff</a></li>
+                    {% if user.is_authenticated %}
+                    <li class="nav-item"><a class="nav-link" href="/profile">Profile</a></li>
+                    {% endif %}
+                    {% if user.is_authenticated %}
+                    <li class="nav-item"><a class="nav-link" href="/logout_user">Logout</a></li>
+                    {% else %}
+                    <li class="nav-item"><a class="nav-link" href="/signin">Login</a></li>
+
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+{% include 'material/_js.html' %}
+
+</body>
+</html>

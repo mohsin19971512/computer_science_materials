@@ -1,0 +1,106 @@
+{% load static %}
+{% include 'material/navbar.html' %}
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Branche Details </title>
+    <!-- Favicon-->
+    <!-- Font Awesome icons (free version)-->
+    {% include 'material/_css.html' %}
+
+
+
+</head>
+
+ 
+
+<body >
+    <span style="margin-top: 150px; margin-left: 80px; margin-bottom: 30px;"  class="fa-stack fa-4x">
+        <img class="mx-auto rounded-circle" src="{{ branche.image.url }}" alt="..." />
+
+      </span>
+<div style="margin-top: 40px;" class="container">
+    <h1>{{branche.name}}</h1>
+    <p> {{branche.description}}</p>
+
+</div>
+
+
+
+  
+  <div style="margin-top: 10px; margin: 4%; max-width: 90%;" class="container-xxl">
+    <div style="margin-left: 50px; margin-bottom: -40px;" class="btn-group">
+        <button type="button" class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+          Select Your Level
+        </button>
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item" href="{% url 'get_level' branche.id 'one' %}">one</a></li>
+          <li><a class="dropdown-item" href="{% url 'get_level' branche.id 'tow' %}">tow</a></li>
+          <li><a class="dropdown-item" href="{% url 'get_level' branche.id 'three' %}">three</a></li>
+          <li><a class="dropdown-item" href="{% url 'get_level' branche.id 'four' %}">four</a></li>
+        </ul>
+      </div>
+    <div class="row">
+        <div class="col-12">
+            {% for j in branche.courses.all %}
+            <div class="card m-5">
+                
+                
+                <div class="card-body text-center mb-2">
+                    <h5 class="card-title m-b-0 m-t-0">  Level {{j.level}} course {{ j.course }} </h5>
+                </div>
+                <div  class="table-responsive">
+                    <table  class="table">
+                        <thead style="background-color: #212529;"  class="text-light">
+                            <tr>
+                                <th scope="col">name</th>
+                                <th scope="col">units</th>
+                                <th scope="col">teacher</th>
+
+                                <th scope="col">lecture</th>
+                                <th scope="col">plan</th>
+                            </tr>
+                        </thead>
+                        <tbody class="customtable">
+                            {% for k in j.subjects.all %}
+                            <tr>
+                                <td>{{k.name}}</td>
+                                <td>{{k.units}}</td>
+                                {% if k.teacher %}
+                                <td><a href="{% url  'teacher_profile' k.teacher.id %}">{{k.teacher}}</a></td>
+                                {% else %}
+                                <td><a href="#"></a></td>
+
+                                {% endif %}
+                                <td><a href="{{k.lecture.url}}"><i style=" color: brown; margin-left: 15px;" class="fas fa-file-pdf fa-lg " ></i></a></td>
+                                <td><a href="{{k.plan.url}}"><i style="size: 50px; color: brown; margin-left: 15px;" class="fas fa-file-pdf fa-lg " ></i></a></td>
+                                
+
+                            </tr>
+                            {% endfor %}
+                            
+                            
+                        </tbody>
+                    </table>
+                </div>
+                
+            </div>
+            {% endfor %}
+        </div>
+    </div> 
+</div>  
+
+
+
+
+{% include 'material/_js.html' %}
+
+</body>
+
+
+  </html>

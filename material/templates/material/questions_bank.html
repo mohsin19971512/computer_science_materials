@@ -1,0 +1,131 @@
+{% load static %} {% include 'material/navbar.html' %}
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <title>questions bank</title>
+    <!-- Favicon-->
+    <!-- Font Awesome icons (free version)-->
+    {% include 'material/_css.html' %}
+  </head>
+
+  <body>
+    <div style="margin-top: 150px" class="container"></div>
+
+    <div
+      style="margin-top: 150px; margin: 4%; max-width: 90%"
+      class="container-xxl"
+    >
+        <form action="" method="GET" style="">
+          {% csrf_token %}
+
+          <div class="form-inline col-md-10">
+              
+            <div class="col-md-4" style="display: inline-block; width: 15.333333%;">
+                
+              <select
+                name="branch"
+                class="form-select  form-select-lg "
+                aria-label=".form-select-lg example"
+              >
+                <option selected>Branch</option>
+                {% for i in branches %}
+                <option value="{{i.id}}">{{i.name}}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="col-md-4" style="display: inline-block; width: 15.333333%;">
+              <select
+                name="level"
+                class="form-select form-select-lg"
+                aria-label=".form-select-lg example"
+              >
+                <option selected>Level</option>
+
+                <option value="one">one</option>
+                <option value="tow">tow</option>
+                <option value="three">three</option>
+                <option value="four">four</option>
+              </select>
+            </div>
+            <div class="col-md-4" style="display: inline-block; width: 15.333333%;">
+              <select
+                name="course"
+                class="form-select form-select-lg "
+                aria-label=".form-select-lg example"
+              >
+                <option selected>Course</option>
+
+                <option value="1st">1st</option>
+                <option value="2nd">2nd</option>
+              </select>
+            </div>
+
+            <div class="col-md-4 " style="display: inline-block; width: 15.333333%;">
+                <input type="submit" value="Find" class="btn btn-dark btn-lg btn-block;" />
+
+            </div>
+
+            <!-- Submit button -->
+          </div>
+        </form>
+      <div class="row">
+        <div class="col-12">
+          <div class="card m-5">
+            <div class="card-body text-center mb-2">
+              <h5 class="card-title m-b-0 m-t-0">questions for all</h5>
+            </div>
+            <div class="table-responsive">
+              <table class="table">
+                <thead style="background-color: #212529" class="text-light">
+                  <tr>
+                    <th scope="col">name</th>
+                    <th scope="col">year</th>
+                    <th scope="col">term</th>
+
+                    <th scope="col">subject</th>
+                    <th scope="col">solution</th>
+                  </tr>
+                </thead>
+                <tbody class="customtable">
+                  {% for j in questions %}
+
+                  <tr>
+                    <td>{{j.name}}</td>
+                    <td>{{j.year}}</td>
+                    <td>{{j.term}}</td>
+                    <td>
+                      <a href="{{j.subject.url}}"
+                        ><i
+                          style="color: brown; margin-left: 15px"
+                          class="fas fa-file-pdf fa-lg"
+                        ></i
+                      ></a>
+                    </td>
+                    <td>
+                      <a href="{{j.solution.url}}"
+                        ><i
+                          style="size: 50px; color: brown; margin-left: 15px"
+                          class="fas fa-file-pdf fa-lg"
+                        ></i
+                      ></a>
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {% include 'material/_js.html' %}
+  </body>
+</html>

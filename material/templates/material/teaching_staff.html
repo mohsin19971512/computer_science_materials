@@ -1,0 +1,51 @@
+{% load static %}
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Teaching Staff </title>
+    <!-- Favicon-->
+    <!-- Font Awesome icons (free version)-->
+    {% include 'material/_css.html' %}
+
+</head>
+
+{% include 'material/navbar.html' %}
+
+<body>
+    <section class="vh-10" style="background-color: #212529; transform: translateY(-20px);">
+        <div class="container">
+            <div class="row clearfix">
+                {% for i in teacher %}
+                <div class="col-lg-3 col-md-4 col-sm-12 m-4">
+                    <div style="width: 300px; height: 300px;" class="card mb-4 mb-xl-3">
+                        <div style="background-color: #212529;" class="card-header text-light text-center">Teaching Staff</div>
+
+                        <div class="card-body text-center">
+                            <!-- Profile picture image-->
+                            <img style="width: 150px; height:140px; " class="img-account-profile rounded-circle mb-2"
+                                src="{{i.image.url}}" alt="">
+                            <!-- Profile picture help block-->
+                            <legend><a href="{% url  'teacher_profile' i.id %}">{{i.full_name}}</a></legend>
+                            <!-- Profile picture upload button-->
+                            
+                        </div>
+                    </div>
+                </div>
+                
+                {% endfor %}
+                
+            </div>
+            
+        </div>
+    </section>
+
+    {% include 'material/_js.html' %}
+
+</body>
+
+
+</html>

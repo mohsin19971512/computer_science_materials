@@ -1,0 +1,141 @@
+{% load static %}
+{% include 'material/navbar.html' %}
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Agency - Start </title>
+    <!-- Favicon-->
+    <!-- Font Awesome icons (free version)-->
+    {% include 'material/_css.html' %}
+
+
+
+</head>
+
+ 
+
+<body >
+   
+<div style="margin-top: 100px;" class="container  border-0">
+    <div class="row">
+        <div class="col-12">
+            {% for i in branche %}
+            <div class="card-body text-center ">
+                <h5 style="margin-bottom: -40px;" class="card-title mt-5"> Branche {{ i.name }} </h5>
+            </div>
+            <div class="card m-5">
+                
+                {% for j in i.courses.all %}
+                <div class="card-body text-center">
+                    <h5 class="card-title m-b-0 m-t-0">  Level {{j.level}} course {{ j.course }} </h5>
+                </div>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead class="thead-light">
+                            <tr>
+                                <th scope="col">name</th>
+                                <th scope="col">units</th>
+                                <th scope="col">teacher</th>
+
+                                <th scope="col">lecture</th>
+                                <th scope="col">plan</th>
+                            </tr>
+                        </thead>
+                        <tbody class="customtable">
+                            {% for k in j.subjects.all %}
+                            <tr>
+                                <td>{{k.name}}</td>
+                                <td>{{k.units}}</td>
+                                <td>{{k.teacher}}</td>
+                                <td><a href="{{k.lecture.url}}"><i style="size: 50px; color: brown; margin-left: 15px;" class="fas fa-file-pdf " ></i></a></td>
+                                <td><a href="{{k.plan.url}}"><i style="size: 50px; color: brown; margin-left: 15px;" class="fas fa-file-pdf " ></i></a></td>
+                                
+
+                            </tr>
+                            {% endfor %}
+                            
+                            
+                        </tbody>
+                    </table>
+                </div>
+                {% endfor %}
+            </div>
+            {% endfor %}
+        </div>
+    </div> 
+</div>  
+
+
+
+{% include 'material/_js.html' %}
+
+</body>
+
+
+  </html>
+
+
+
+
+  
+    <!-- <div class="row">
+        <div class="col-12">
+            {% for i in course %}
+            <div class="card m-5">
+                
+                <div class="card-body text-center">
+                    <h5 class="card-title m-b-0"> Branch {{ i.branch }} Level {{i.level}} course {{i.course}}</h5>
+                </div>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead class="thead-light">
+                            <tr>
+                                <th scope="col">name</th>
+                                <th scope="col">units</th>
+                                <th scope="col">teacher</th>
+
+                                <th scope="col">lecture</th>
+                                <th scope="col">plan</th>
+                            </tr>
+                        </thead>
+                        <tbody class="customtable">
+                            {% for j in i.subjects.all %}
+                            <tr>
+                                <td>{{j.name}}</td>
+                                <td>{{j.units}}</td>
+                                <td>{{j.teacher}}</td>
+                                <td><a href="{{j.lecture.url}}"><i style="size: 50px;;" class="fas fa-file-pdf " ></i></a></td>
+                                <td><a href="{{j.plan.url}}"><i style="size: 50px;;" class="fas fa-file-pdf " ></i></a></td>
+                                
+
+                            </tr>
+                            {% endfor %}
+                            
+                        </tbody>
+                    </table>
+                </div>
+                
+            </div>
+            {% endfor %}
+        </div>
+    </div> 
+
+
+ <div class="btn-group">
+                            <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Action
+                            </button>
+                            <div class="dropdown-menu">
+                            <a class="dropdown-item" href="#">Action</a>
+                            <a class="dropdown-item" href="#">Another action</a>
+                            <a class="dropdown-item" href="#">Something else here</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">Separated link</a>
+                            </div>
+                        </div>
+-->

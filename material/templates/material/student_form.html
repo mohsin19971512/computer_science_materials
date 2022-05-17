@@ -1,0 +1,110 @@
+{% load static %}
+{% include 'material/navbar.html' %}
+{% load crispy_forms_tags %}
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Create Profile </title>
+    <!-- Favicon-->
+    <!-- Font Awesome icons (free version)-->
+    {% include 'material/_css.html' %}
+
+
+
+</head>
+
+ 
+
+<body >
+
+    <div style="margin-top: 150px;" class="container rounded bg-white ">
+        <div class="row">
+            <div class="col-md-3 border-right">
+                <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" width="150px" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"><span class="font-weight-bold">Edogaru</span><span class="text-black-50">edogaru@mail.com.my</span><span> </span></div>
+            </div>
+            <div class="col-md-5 border-right">
+                <form method="POST">
+                    {% csrf_token %}
+                    <fieldset class="form-group">
+                        <legend class="border-bottom mb-4">Create Profile</legend>
+                        {{ form|crispy }}
+                    </fieldset>
+                    <div class="form-group">
+                        <button class="btn btn-outline-info" type="submit">Create</button>
+                    </div>
+                </form>
+            </div>
+           
+        </div>
+    </div>
+    </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+    
+
+
+{% include 'material/_js.html' %}
+
+</body>
+
+
+  </html>
+
+
+
+
+  
+    <!-- <div class="row">
+        <div class="col-12">
+            {% for i in course %}
+            <div class="card m-5">
+                
+                <div class="card-body text-center">
+                    <h5 class="card-title m-b-0"> Branch {{ i.branch }} Level {{i.level}} course {{i.course}}</h5>
+                </div>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead class="thead-light">
+                            <tr>
+                                <th scope="col">name</th>
+                                <th scope="col">units</th>
+                                <th scope="col">teacher</th>
+
+                                <th scope="col">lecture</th>
+                                <th scope="col">plan</th>
+                            </tr>
+                        </thead>
+                        <tbody class="customtable">
+                            {% for j in i.subjects.all %}
+                            <tr>
+                                <td>{{j.name}}</td>
+                                <td>{{j.units}}</td>
+                                <td>{{j.teacher}}</td>
+                                <td><a href="{{j.lecture.url}}"><i style="size: 50px;;" class="fas fa-file-pdf " ></i></a></td>
+                                <td><a href="{{j.plan.url}}"><i style="size: 50px;;" class="fas fa-file-pdf " ></i></a></td>
+                                
+
+                            </tr>
+                            {% endfor %}
+                            
+                        </tbody>
+                    </table>
+                </div>
+                
+            </div>
+            {% endfor %}
+        </div>
+    </div> -->
