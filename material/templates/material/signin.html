@@ -16,12 +16,37 @@
 {% include 'material/navbar.html' %}
  
 <body>
+
+
+  </div>
   <section class="vh-10" style="background-color: #212529; transform: translateY(-20px);">
     <div  class="container  h-100">
       <div class="row d-flex justify-content-center align-items-center h-100">
         <div class="col col-xl-10">
           <div class="card" style="border-radius: 1rem;">
+            {% if messages %}
+              <div class="col-12">
+                {% for message in messages %}
+                {% if message.tags == "error" %}
+                {% comment %} <div class="alert alert-danger alert-dismissible fade show" role="alert" style="margin-top: 10px;">
+                  <b>{{ message }}</b>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              
+                </div> {% endcomment %}
+              
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Invalid Login Credentials!</strong>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+                {% endif %}
+                {% endfor %}
+              </div>
+              {% endif %}
+              
             <div class="row g-0">
+              
               <div class="col-md-6 col-lg-5 d-none d-md-block">
                 <img
                   src="{% static 'assets/img/singupbg.avif' %}"
@@ -62,6 +87,7 @@
                       </form>
   
                 </div>
+
               </div>
             </div>
           </div>

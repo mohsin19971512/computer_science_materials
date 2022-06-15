@@ -1,4 +1,4 @@
-{% load static %} {% include 'material/navbar.html' %}
+{% load static %}
 
 <!DOCTYPE html>
 
@@ -16,70 +16,170 @@
   </head>
 
   <body>
+    <!-- Navigation-->
+    <nav
+      class="navbar navbar-expand-lg navbar-dark fixed-top"
+      style="background-color: #212529"
+      id="mainNav"
+    >
+      <div class="container">
+        <a class="navbar-brand" href="/"
+          ><img
+            style="
+              margin-right: 10px;
+              margin-top: -1px;
+              width: 50px;
+              height: 50px;
+            "
+            src="{% static 'assets/img/cslogo.png' %}"
+            alt="..."
+          />Computer Science</a
+        >
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarResponsive"
+          aria-controls="navbarResponsive"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          Menu
+          <i class="fas fa-bars ms-1"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav text-uppercase ms-auto py-4 py-lg-0">
+            <li class="nav-item">
+              <a
+                style="font-size: 13px"
+                class="nav-link"
+                href="{% url 'program_specification' %}"
+                >Program Specification</a
+              >
+            </li>
+
+            <li class="nav-item">
+              <a
+                style="font-size: 13px"
+                class="nav-link"
+                href="{% url 'questions_bank' %}"
+                >question bank</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                style="font-size: 13px"
+                class="nav-link"
+                href="{% url 'teaching_staff' %}"
+                >Teaching Staff</a
+              >
+            </li>
+            {% if user.is_authenticated %} {% if request.user.is_superuser %}
+            <li class="nav-item">
+              <a style="font-size: 13px" class="nav-link" href="/admin"
+                >Admin</a
+              >
+            </li>
+            {% else %}
+
+            <li class="nav-item">
+              <a style="font-size: 13px" class="nav-link" href="/profile"
+                >Profile</a
+              >
+            </li>
+            {% endif %} {% endif %} {% if user.is_authenticated %}
+            <li class="nav-item">
+              <a style="font-size: 13px" class="nav-link" href="/logout_user"
+                >Logout</a
+              >
+            </li>
+            {% else %}
+            <li class="nav-item">
+              <a style="font-size: 13px" class="nav-link" href="/signin"
+                >Login</a
+              >
+            </li>
+
+            {% endif %}
+          </ul>
+        </div>
+      </div>
+    </nav>
     <div style="margin-top: 150px" class="container"></div>
 
     <div
       style="margin-top: 150px; margin: 4%; max-width: 90%"
       class="container-xxl"
     >
-        <form action="" method="GET" style="">
-          {% csrf_token %}
+      <form action="" method="GET" style="margin-left: 23px">
+        {% csrf_token %}
 
-          <div class="form-inline col-md-10">
-              
-            <div class="col-md-4" style="display: inline-block; width: 15.333333%;">
-                
-              <select
-                name="branch"
-                class="form-select  form-select-lg "
-                aria-label=".form-select-lg example"
-              >
-                <option selected>Branch</option>
-                {% for i in branches %}
-                <option value="{{i.id}}">{{i.name}}</option>
-                {% endfor %}
-              </select>
-            </div>
-            <div class="col-md-4" style="display: inline-block; width: 15.333333%;">
-              <select
-                name="level"
-                class="form-select form-select-lg"
-                aria-label=".form-select-lg example"
-              >
-                <option selected>Level</option>
-
-                <option value="one">one</option>
-                <option value="tow">tow</option>
-                <option value="three">three</option>
-                <option value="four">four</option>
-              </select>
-            </div>
-            <div class="col-md-4" style="display: inline-block; width: 15.333333%;">
-              <select
-                name="course"
-                class="form-select form-select-lg "
-                aria-label=".form-select-lg example"
-              >
-                <option selected>Course</option>
-
-                <option value="1st">1st</option>
-                <option value="2nd">2nd</option>
-              </select>
-            </div>
-
-            <div class="col-md-4 " style="display: inline-block; width: 15.333333%;">
-                <input type="submit" value="Find" class="btn btn-dark btn-lg btn-block;" />
-
-            </div>
-
-            <!-- Submit button -->
+        <div class="form-inline col-md-10">
+          <div
+            class="col-md-4"
+            style="display: inline-block; width: 15.333333%"
+          >
+            <p style="text-align: center">Branch</p>
+            <select
+              name="branch"
+              class="form-select form-select-lg"
+              aria-label=".form-select-lg example"
+            >
+              {% comment %}
+              <option selected>Branch</option>
+              {% endcomment %} {% for i in branches %}
+              <option value="{{i.id}}">{{i.name}}</option>
+              {% endfor %}
+            </select>
           </div>
-        </form>
+          <div
+            class="col-md-4"
+            style="display: inline-block; width: 15.333333%"
+          >
+            <p style="text-align: center">Level</p>
+
+            <select
+              name="level"
+              class="form-select form-select-lg"
+              aria-label=".form-select-lg example"
+            >
+              {% comment %}
+              <option selected>Level</option>
+              {% endcomment %}
+
+              <option value="one">one</option>
+              <option value="two">two</option>
+              <option value="three">three</option>
+              <option value="four">four</option>
+            </select>
+          </div>
+
+          <div
+            class="col-md-4"
+            style="display: inline-block; width: 15.333333%"
+          >
+            <p style="text-align: left"></p>
+
+            <input
+              type="submit"
+              value="Find"
+              class="btn btn-dark btn-lg btn-block mt-4"
+            />
+          </div>
+
+          <!-- Submit button -->
+        </div>
+      </form>
       <div class="row">
         <div class="col-12">
           <div class="card m-5">
             <div class="card-body text-center mb-2">
+              {% if title %}
+              <h5 class="card-title m-b-0 m-t-0">{{title}}</h5>
+
+               {% else %}
               <h5 class="card-title m-b-0 m-t-0">questions for all</h5>
+              {% endif %}
             </div>
             <div class="table-responsive">
               <table class="table">
@@ -88,7 +188,6 @@
                     <th scope="col">name</th>
                     <th scope="col">year</th>
                     <th scope="col">term</th>
-
                     <th scope="col">subject</th>
                     <th scope="col">solution</th>
                   </tr>
@@ -101,20 +200,29 @@
                     <td>{{j.year}}</td>
                     <td>{{j.term}}</td>
                     <td>
+                      {% if j.subject %}
                       <a href="{{j.subject.url}}"
                         ><i
                           style="color: brown; margin-left: 15px"
                           class="fas fa-file-pdf fa-lg"
                         ></i
                       ></a>
+                      {% else %}
+                      <a href="#"></a>
+
+                      {% endif %}
                     </td>
                     <td>
+                      {% if j.solution %}
                       <a href="{{j.solution.url}}"
                         ><i
                           style="size: 50px; color: brown; margin-left: 15px"
                           class="fas fa-file-pdf fa-lg"
                         ></i
                       ></a>
+                      {% else %}
+                      <a href="#"></a>
+                      {% endif %}
                     </td>
                   </tr>
                   {% endfor %}

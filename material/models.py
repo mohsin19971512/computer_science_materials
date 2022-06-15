@@ -3,6 +3,8 @@ from statistics import mode
 from django.db import models
 from django.contrib.auth.models import User
 from PIL import Image
+
+
 class Branch(models.Model):
     name  = models.CharField(max_length=250)
     description = models.TextField()
@@ -11,10 +13,11 @@ class Branch(models.Model):
     updated  = models.DateTimeField(auto_now=True)
     def __str__(self):
         return f"{self.name}"
+    
 
 
 class Course(models.Model):
-    course = models.CharField(choices=(("1s","1s"),("2nd","2nd")),max_length=10)
+    course = models.CharField(choices=(("1st","1st"),("2nd","2nd")),max_length=10)
     branch = models.ForeignKey(Branch,on_delete=models.CASCADE,related_name='courses')
     level = models.CharField(choices=(("one","one"),("two","two"),("three","three"),("four","four")),max_length=50)
     subjects = models.ManyToManyField('material.Subject',related_name='courses')
@@ -35,12 +38,11 @@ class Subject(models.Model):
         return  f"{self.name}"
 
 
-
-
 #-----------------------------------------------------------------------------
 class Academic_Program_Description_Forms(models.Model):
     title = models.CharField(max_length=500)
-    content = models.ForeignKey(Subject,null=True,on_delete=models.SET_NULL)
+    content = models.FileField('content', upload_to='Academic_Program_Description_Forms/',null=True,blank=True)
+
     class Meta:
         verbose_name = "Academic Program Description Form"
         verbose_name_plural = "Academic Program Description Forms"
@@ -49,7 +51,7 @@ class Academic_Program_Description_Forms(models.Model):
 
 
 class Course_description_of_common_materials(models.Model):
-    stage = models.CharField(choices=(("one","one"),("tow","tow"),("three","three"),("four","four")),max_length=50)
+    stage = models.CharField(choices=(("one","one"),("two","two"),("three","three"),("four","four")),max_length=50)
     common_materials = models.ManyToManyField(Subject)
 
     class Meta:
@@ -58,7 +60,7 @@ class Course_description_of_common_materials(models.Model):
 
 class Course_Description_of_Specialized_Courses(models.Model):
     branch = models.ForeignKey(Branch,on_delete=models.SET_NULL,null=True)
-    stage = models.CharField(choices=(("one","one"),("tow","tow"),("three","three"),("four","four")),max_length=50)
+    stage = models.CharField(choices=(("one","one"),("two","two"),("three","three"),("four","four")),max_length=50)
     materials = models.ManyToManyField(Subject)
 
     class Meta:
@@ -76,7 +78,7 @@ class Researche(models.Model):
 #----------------------------------------------------------------------------------------------
 
 class Teacher(models.Model):
-    user=models.OneToOneField(User,on_delete=models.CASCADE)
+    #user=models.OneToOneField(User,on_delete=models.CASCADE)
     full_name = models.CharField(verbose_name="Full Name",max_length=255)
     image  = models.ImageField(upload_to='profile_pics/',null=True,blank=True)
     mobile = models.CharField(max_length=40)
@@ -86,7 +88,7 @@ class Teacher(models.Model):
     branch = models.ForeignKey(Branch,on_delete=models.SET_NULL,null=True,verbose_name="Branch")
     education = models.CharField(verbose_name="Education",max_length=500)
     degree = models.CharField(verbose_name="Degree",max_length=100)
-    teacing = models.ManyToManyField(Subject,related_name="teachers")
+    #teacing = models.ManyToManyField(Subject,related_name="teachers")
     honor = models.CharField("Honors And Awards",max_length=500)
     links = models.ForeignKey('material.Linke',on_delete=models.SET_NULL,null=True)
     joindate=models.DateField(auto_now_add=True)
@@ -99,6 +101,9 @@ class Linke(models.Model):
     publons = models.CharField(verbose_name="Publons",max_length=500)
     orcid = models.CharField(verbose_name="ORCID",max_length=500)
     scopus = models.CharField(verbose_name="Scopus",max_length=500)
+    
+    def __str__(self):
+        return f'Linke {self.id}'
     
 
 class Student(models.Model):
@@ -129,10 +134,9 @@ class Questions_Bank(models.Model):
     solution = models.FileField('Solution', upload_to='questions/',null=True,blank=True)
     level = models.CharField(choices=(("one","one"),("tow","tow"),("three","three"),("four","four")),max_length=50)
     branch = models.ForeignKey(Branch,on_delete=models.SET_NULL,null=True)
-    course = models.CharField(choices=(("1st","1st"),("2nd","2nd")),max_length=10)
 
     def __str__(self) -> str:
-        return f'{self.year}'
+        return f'{self.name}-{self.level}-{self.branch}-{self.year}'
 
     class Meta:
         verbose_name = "Questions Bank"

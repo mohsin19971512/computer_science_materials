@@ -1,5 +1,4 @@
 {% load static %}
-{% include 'material/navbar.html' %}
 
 <!DOCTYPE html>
 
@@ -20,13 +19,50 @@
  
 
 <body >
+      <!-- Navigation-->
+      <nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background-color: #212529;" id="mainNav">
+        <div class="container">
+            <a class="navbar-brand" href="/"><img style="margin-right: 10px; margin-top: -1px; width: 50px; height: 50px;" src="{% static 'assets/img/cslogo.png' %}" alt="..." />Computer Science</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                Menu
+                <i class="fas fa-bars ms-1"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav text-uppercase ms-auto py-4 py-lg-0">
+                   
+                    <li class="nav-item"><a style="font-size:13px;" class="nav-link" href="{% url 'program_specification' %}">Program Specification</a></li>
+
+
+
+                    
+                    
+                    <li class="nav-item"><a style="font-size:13px;" class="nav-link" href="{% url 'questions_bank' %}">question bank</a></li>
+                    <li class="nav-item"><a style="font-size:13px;" class="nav-link" href="{% url 'teaching_staff' %}">Teaching Staff</a></li>
+                    {% if user.is_authenticated %}
+                    {% if request.user.is_superuser %}
+                    <li class="nav-item"><a style="font-size:13px;" class="nav-link" href="/admin">Admin</a></li>
+                    {% else %}
+
+
+                    <li class="nav-item"><a style="font-size:13px;" class="nav-link" href="/profile">Profile</a></li>
+                    {% endif %}                    {% endif %}
+                    {% if user.is_authenticated %}
+                    <li class="nav-item"><a style="font-size:13px;" class="nav-link" href="/logout_user">Logout</a></li>
+                    {% else %}
+                    <li class="nav-item"><a style="font-size:13px;" class="nav-link" href="/signin">Login</a></li>
+
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
     <span style="margin-top: 150px; margin-left: 80px; margin-bottom: 30px;"  class="fa-stack fa-5x">
         <img class="mx-auto rounded-circle" src="{{ branche.image.url }}" alt="..." />
 
       </span>
       
 <div style="margin-top: 40px;" class="container">
-    <h1>{{branche.name}}</h1>
+    <h1><a href="{% url 'get_branche' branche.id %}">{{branche.name}}</a></h1>
     <p> {{branche.description}}</p>
 
 </div>
@@ -41,18 +77,19 @@
         </button>
         <ul class="dropdown-menu">
           <li><a class="dropdown-item" href="{% url 'get_level' branche.id 'one' %}">one</a></li>
-          <li><a class="dropdown-item" href="{% url 'get_level' branche.id 'tow' %}">tow</a></li>
+          <li><a class="dropdown-item" href="{% url 'get_level' branche.id 'two' %}">two</a></li>
           <li><a class="dropdown-item" href="{% url 'get_level' branche.id 'three' %}">three</a></li>
           <li><a class="dropdown-item" href="{% url 'get_level' branche.id 'four' %}">four</a></li>
         </ul>
       </div>
     <div class="row">
+        {% for j in course %}
+
         <div class="col-12">
             <div class="card m-5">
                 
-                {% for j in course %}
                 <div class="card-body text-center">
-                    <h5 class="card-title m-b-0 m-t-0">  Level {{j.level}} course {{ j.course }} </h5>
+                    <h5 class="card-title m-b-0 m-t-0">  Level {{j.level}}  {{ j.course }} course </h5>
                 </div>
                 <div class="table-responsive">
                     <table class="table">
@@ -71,10 +108,23 @@
                             <tr>
                                 <td>{{k.name}}</td>
                                 <td>{{k.units}}</td>
-                                <td>{{k.teacher}}</td>
+                                {% if k.teacher %}
+                                <td><a href="{% url 'teacher_profile' k.teacher.id %}">{{k.teacher}}</a></td>
+                                {% else %}
+                                <td><a href="#"></a></td>
+
+                                {% endif %}
+                                {% if k.lecture %}
                                 <td><a href="{{k.lecture.url}}"><i style="size: 50px; color: brown; margin-left: 15px;" class="fas fa-file-pdf " ></i></a></td>
+                                {% else %}
+                                <td><a href="#"></a></td>
+                                {% endif %}
+                                {% if k.plan %}
                                 <td><a href="{{k.plan.url}}"><i style="size: 50px; color: brown; margin-left: 15px;" class="fas fa-file-pdf " ></i></a></td>
-                                
+                                {% else %}
+                                <td><a href="#"></a></td>
+                                {% endif %}
+
 
                             </tr>
                             {% endfor %}
@@ -83,9 +133,10 @@
                         </tbody>
                     </table>
                 </div>
-                {% endfor %}
             </div>
         </div>
+        {% endfor %}
+
     </div> 
 </div>  
 

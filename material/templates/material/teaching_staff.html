@@ -26,8 +26,13 @@
 
                         <div class="card-body text-center">
                             <!-- Profile picture image-->
+                            {% if  i.image %}
                             <img style="width: 150px; height:140px; " class="img-account-profile rounded-circle mb-2"
                                 src="{{i.image.url}}" alt="">
+                                {% else %}
+                                
+                            {% endif %}
+                            
                             <!-- Profile picture help block-->
                             <legend><a href="{% url  'teacher_profile' i.id %}">{{i.full_name}}</a></legend>
                             <!-- Profile picture upload button-->

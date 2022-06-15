@@ -1,0 +1,321 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <title>Program Specification</title>
+    <!-- Favicon-->
+    <!-- Font Awesome icons (free version)-->
+    {% include 'material/_css.html' %}
+  </head>
+
+  <body>
+    <!-- Navigation-->
+    <nav
+      class="navbar navbar-expand-lg navbar-dark fixed-top"
+      style="background-color: #212529"
+      id="mainNav"
+    >
+      <div class="container">
+        <a class="navbar-brand" href="/"
+          ><img
+            style="
+              margin-right: 10px;
+              margin-top: -1px;
+              width: 50px;
+              height: 50px;
+            "
+            src="{% static 'assets/img/cslogo.png' %}"
+            alt="..."
+          />Computer Science</a
+        >
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarResponsive"
+          aria-controls="navbarResponsive"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          Menu
+          <i class="fas fa-bars ms-1"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav text-uppercase ms-auto py-4 py-lg-0">
+            <li class="nav-item">
+              <a
+                style="font-size: 13px"
+                class="nav-link"
+                href="{% url 'program_specification' %}"
+                >Program Specification</a
+              >
+            </li>
+
+            <li class="nav-item">
+              <a
+                style="font-size: 13px"
+                class="nav-link"
+                href="{% url 'questions_bank' %}"
+                >question bank</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                style="font-size: 13px"
+                class="nav-link"
+                href="{% url 'teaching_staff' %}"
+                >Teaching Staff</a
+              >
+            </li>
+            {% if user.is_authenticated %} {% if request.user.is_superuser %}
+            <li class="nav-item">
+              <a style="font-size: 13px" class="nav-link" href="/admin"
+                >Admin</a
+              >
+            </li>
+            {% else %}
+
+            <li class="nav-item">
+              <a style="font-size: 13px" class="nav-link" href="/profile"
+                >Profile</a
+              >
+            </li>
+            {% endif %} {% endif %} {% if user.is_authenticated %}
+            <li class="nav-item">
+              <a style="font-size: 13px" class="nav-link" href="/logout_user"
+                >Logout</a
+              >
+            </li>
+            {% else %}
+            <li class="nav-item">
+              <a style="font-size: 13px" class="nav-link" href="/signin"
+                >Login</a
+              >
+            </li>
+
+            {% endif %}
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div style="margin-top: 100px" class="container border-0">
+      <div class="row">
+        <div class="col-12">
+          <div class="card-body text-center">
+            <h5 style="margin-bottom: -40px" class="card-title mt-5"></h5>
+          </div>
+          <div class="card m-5" style="border: none">
+            <div class="card-body">
+              <h5 style="margin-left: -10px" class="card-title m-b-0 m-t-0">
+                Academic Program Description Forms
+              </h5>
+            </div>
+            <div class="table-responsive" style="border: none">
+              <table class="table" style="border: none">
+                <tbody class="customtable">
+                  {% for val in apdf %}
+
+                  <tr style="border-top: none">
+                    <td style="border-top: none">
+                      <a href="{{val.content.url}}"
+                        ><i
+                          style="color: brown; margin-right: 15px"
+                          class="fas fa-file-pdf fa-lg"
+                        ></i
+                        >{{val.title}}</a
+                      >
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="col-12">
+          <div class="card-body text-center">
+            <h5 style="margin-bottom: -40px" class="card-title mt-5"></h5>
+          </div>
+          <div class="card m-5">
+            <div class="card-body text-center">
+              <h5 class="card-title m-b-0 m-t-0">
+                Course description of common materials
+              </h5>
+            </div>
+            <div class="table-responsive">
+              <table class="table">
+                <thead style="background-color: #212529" class="text-light">
+                  <tr>
+                    <th scope="col">Stage</th>
+
+                    {% comment %} {% for k in stages %}
+                    <th scope="col"></th>
+                    {% endfor %} {% endcomment %} {% for val in stages.items %}
+
+                    <th scope="col"></th>
+                    {% for i in val.1 %}
+
+                    <th scope="col"></th>
+                    {% endfor %} {% endfor %}
+                  </tr>
+                </thead>
+                <tbody class="customtable">
+                  {% for val in stages.items %}
+
+                  <tr
+                    style="border-top: none; border-bottom: 1px solid #212529;"
+                  >
+                    <td style="background-color: #212529" class="text-light">
+                      Level {{val.0}}
+                    </td>
+                    {% for i in val.1 %}
+
+                    <td style="border: 1px solid #212529;">{{i}}</td>
+
+                    {% endfor %}
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        {% for i in branche %}
+
+        <div class="col-12">
+          <div class="card-body text-center">
+            <h5 style="margin-bottom: -40px" class="card-title mt-5">
+               {{ i.name }} Branch
+            </h5>
+          </div>
+          <div class="card m-5">
+            {% for j in i.courses.all %}
+            <div class="card-body text-center">
+              <h5 class="card-title m-b-0 m-t-0">
+                Level {{j.level}} course {{ j.course }}
+              </h5>
+            </div>
+            <div class="table-responsive">
+              <table class="table">
+                <thead style="background-color: #212529" class="text-light">
+                  <tr>
+                    <th scope="col">name</th>
+                    <th scope="col">units</th>
+                    <th scope="col">teacher</th>
+
+                    <th scope="col">lecture</th>
+                    <th scope="col">plan</th>
+                  </tr>
+                </thead>
+                <tbody class="customtable">
+                  {% for k in j.subjects.all %}
+                  <tr>
+                    <td>{{k.name}}</td>
+                    <td>{{k.units}}</td>
+
+                    {% if k.teacher %}
+                    <td>{{k.teacher}}</td>
+                    {% else %}
+                    <td><a href="#"></a></td>
+                    {% endif %} {% if k.lecture %}
+                    <td>
+                      <a href="{{k.lecture.url}}"
+                        ><i
+                          style="size: 50px; color: brown; margin-left: 15px"
+                          class="fas fa-file-pdf"
+                        ></i
+                      ></a>
+                    </td>
+                    {% else %}
+                    <td><a href="#"></a></td>
+                    {% endif %} {% if k.plan %}
+                    <td>
+                      <a href="{{k.plan.url}}"
+                        ><i
+                          style="size: 50px; color: brown; margin-left: 15px"
+                          class="fas fa-file-pdf"
+                        ></i
+                      ></a>
+                    </td>
+                    {% else %}
+                    <td><a href="#"></a></td>
+                    {% endif %}
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+            {% endfor %}
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    {% include 'material/_js.html' %}
+  </body>
+</html>
+
+<!-- <div class="row">
+        <div class="col-12">
+            {% for i in course %}
+            <div class="card m-5">
+                
+                <div class="card-body text-center">
+                    <h5 class="card-title m-b-0"> Branch {{ i.branch }} Level {{i.level}} course {{i.course}}</h5>
+                </div>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead class="thead-light">
+                            <tr>
+                                <th scope="col">name</th>
+                                <th scope="col">units</th>
+                                <th scope="col">teacher</th>
+
+                                <th scope="col">lecture</th>
+                                <th scope="col">plan</th>
+                            </tr>
+                        </thead>
+                        <tbody class="customtable">
+                            {% for j in i.subjects.all %}
+                            <tr>
+                                <td>{{j.name}}</td>
+                                <td>{{j.units}}</td>
+                                <td>{{j.teacher}}</td>
+                                <td><a href="{{j.lecture.url}}"><i style="size: 50px;;" class="fas fa-file-pdf " ></i></a></td>
+                                <td><a href="{{j.plan.url}}"><i style="size: 50px;;" class="fas fa-file-pdf " ></i></a></td>
+                                
+
+                            </tr>
+                            {% endfor %}
+                            
+                        </tbody>
+                    </table>
+                </div>
+                
+            </div>
+            {% endfor %}
+        </div>
+    </div> 
+
+
+ <div class="btn-group">
+                            <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Action
+                            </button>
+                            <div class="dropdown-menu">
+                            <a class="dropdown-item" href="#">Action</a>
+                            <a class="dropdown-item" href="#">Another action</a>
+                            <a class="dropdown-item" href="#">Something else here</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">Separated link</a>
+                            </div>
+                        </div>
+-->

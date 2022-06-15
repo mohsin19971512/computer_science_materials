@@ -12,6 +12,37 @@ from django.contrib.auth.decorators import login_required
 def home(request):
     return render (request,"material/home.html",{})
 
+def program_specification(request):
+    list1 = []
+    level_list = ['one', 'two', 'three', 'four']
+    list2 = []
+    dict2 = {}
+    for y in level_list: 
+        course = models.Course.objects.filter(level=y)
+        list2.clear()
+        list1.clear()
+        
+        for i in course:
+            for j in i.subjects.all():
+                list1.append(j)
+                
+                list2 = [str(k) for k in list1]
+                
+        list3 = [x for x in list2 if list2.count(x) >=2]
+        list3 = set(list3)
+        list3 = list(list3)
+        dict1 = {y:list3}
+        dict2[y] = list3
+    branche = models.Branch.objects.all()
+    apdf = models.Academic_Program_Description_Forms.objects.all()
+    context = {
+        'branche':branche,
+        'stages':dict2,
+        'apdf':apdf,
+    }
+    
+    return render (request,'material/program_specification.html',context)
+    
 
 
 def loginUser(request):
@@ -19,26 +50,27 @@ def loginUser(request):
 
 def doLogin(request):
     
-    print("here")
     username = request.GET.get('username')
     password = request.GET.get('password')
     # user_type = request.GET.get('user_type')
-    print(username)
-    print(password)
-    print(request.user)
+    
+    #print(request.user)
+    
     if not (username and password):
         messages.error(request, "Please provide all the details!!")
         return render(request, 'material/signin.html')
 
-    user = User.objects.filter(username=username, password=password).last()
+    user = User.objects.filter(username=username, password=password).first()
     if not user:
         messages.error(request, 'Invalid Login Credentials!!')
         return render(request, 'material/signin.html')
 
     login(request, user)
-    print(request.user)
 
     if user:
+        if  request.user.is_superuser:
+            return redirect('basedashboard')
+            
         return redirect('profile')
 
     return render(request, 'material/home.html')
@@ -55,11 +87,7 @@ def doRegistration(request):
     password = request.GET.get('password')
     confirm_password = request.GET.get('confirmPassword')
 
-    print(username)
-    print(password)
-    print(confirm_password)
-    print(first_name)
-    print(last_name)
+   
     if not (username and password and confirm_password):
         messages.error(request, 'Please provide all the details!!')
         return render(request, 'material/signup.html')
@@ -109,7 +137,6 @@ def basedashboard(request) :
 def get_branche(request,branche_id) :
     
     branche = models.Branch.objects.get(id = branche_id)
-    print('teacher id : ',)
     context = {
         'branche':branche,
     }
@@ -128,16 +155,22 @@ def questions_bank(request) :
     questions = models.Questions_Bank.objects.all()
     branches = models.Branch.objects.all()
     if request.method == "GET":
-        questions = models.Questions_Bank.objects.filter(level = request.GET.get("level"),branch = models.Branch.objects.filter(id=request.GET.get("branch")).first(),course =request.GET.get("course") )
+        questions = models.Questions_Bank.objects.filter(level = request.GET.get("level"),branch = models.Branch.objects.filter(id=request.GET.get("branch")).first() )
         
-        print(request.GET.get("level"))
         
     if len(questions)<=0:
         questions = models.Questions_Bank.objects.all()
+    
+    if request.GET.get("branch") and request.GET.get("level") :
+        
+        title =  models.Branch.objects.filter(id=request.GET.get("branch")).first().name +" level "+ request.GET.get("level")
+    else :
+        title = "questions for all branches"
         
     context = {
         'questions':questions,
-        'branches':branches
+        'branches':branches,
+        'title':title
     }
     return render (request,'material/questions_bank.html',context)
 
@@ -158,6 +191,7 @@ def teaching_staff(request) :
     list1 = []
     level_list = ['one', 'two', 'three', 'four']
     list2 = []
+    dict2 = {}
     for y in level_list: 
         course = models.Course.objects.filter(level=y)
         list2.clear()
@@ -168,18 +202,26 @@ def teaching_staff(request) :
                 list1.append(j)
                 
                 list2 = [str(k) for k in list1]
-                #print("List 1 = ",list1)
+                
         list3 = [x for x in list2 if list2.count(x) >=2]
         list3 = set(list3)
         list3 = list(list3)
         dict1 = {y:list3}
-        print(dict1)
+        dict2[y] = list3
     
-            
-            
-            
+    
         
-        
+        branches = models.Branch.objects.all()
+        for i in branches:
+            for l in level_list:
+                course2 = models.Course.objects.filter(branch = i,level = l)
+                if len(course2)>=1: 
+                    for m in course2.first().subjects.all():
+                        #if m.name in dict["one"]:
+                        #print(m)
+                        pass
+
+                                                                                                                                        
     teacher = models.Teacher.objects.all()
     context = {
         'teacher':teacher,
@@ -189,7 +231,6 @@ def teaching_staff(request) :
 
 def teacher_profile(request,id):
     teacher = models.Teacher.objects.get(id = id)
-    print("image",teacher.links.google_scholar)
 
     return render(request, 'material/teacher_profile.html', {'teacher':teacher})
 
@@ -197,7 +238,6 @@ def table(request) :
     #user1 = models.Student.objects.get(user=request.user)
     #course = models.Course.objects.filter(branch=user1.branch,level = user1.level)
     branche = models.Branch.objects.all()
-    print('branche.course',branche[0].courses.first())
     #print(" subjects ",course.first().subjects.first())
     context = {
         'branche':branche,
@@ -228,7 +268,6 @@ def student_form(request):
 
         form = forms.StudentExtraForm(request.POST )
         if form.is_valid():
-            print(request.POST['id_branch'])
 
             return redirect('basedashboard')
     else:

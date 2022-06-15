@@ -8,6 +8,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title> </title>
+    
     <!-- Favicon-->
     <!-- Font Awesome icons (free version)-->
     {% include 'material/_css.html' %}
@@ -28,21 +29,26 @@
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav text-uppercase ms-auto py-4 py-lg-0">
                    
-                    <li class="nav-item"><a class="nav-link" href="#services">Branches</a></li>
+                    <li class="nav-item"><a style="font-size:13px;" class="nav-link" href="{% url 'program_specification' %}">Program Specification</a></li>
 
 
 
                     
                     
-                    <li class="nav-item"><a class="nav-link" href="{% url 'questions_bank' %}">question bank</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'teaching_staff' %}">Teaching Staff</a></li>
+                    <li class="nav-item"><a style="font-size:13px;" class="nav-link" href="{% url 'questions_bank' %}">question bank</a></li>
+                    <li class="nav-item"><a style="font-size:13px;" class="nav-link" href="{% url 'teaching_staff' %}">Teaching Staff</a></li>
                     {% if user.is_authenticated %}
-                    <li class="nav-item"><a class="nav-link" href="/profile">Profile</a></li>
-                    {% endif %}
-                    {% if user.is_authenticated %}
-                    <li class="nav-item"><a class="nav-link" href="/logout_user">Logout</a></li>
+                    {% if request.user.is_superuser %}
+                    <li class="nav-item"><a style="font-size:13px;" class="nav-link" href="/admin">Admin</a></li>
                     {% else %}
-                    <li class="nav-item"><a class="nav-link" href="/signin">Login</a></li>
+
+
+                    <li class="nav-item"><a style="font-size:13px;" class="nav-link" href="/profile">Profile</a></li>
+                    {% endif %}                    {% endif %}
+                    {% if user.is_authenticated %}
+                    <li class="nav-item"><a style="font-size:13px;" class="nav-link" href="/logout_user">Logout</a></li>
+                    {% else %}
+                    <li class="nav-item"><a style="font-size:13px;" class="nav-link" href="/signin">Login</a></li>
 
                     {% endif %}
                 </ul>
